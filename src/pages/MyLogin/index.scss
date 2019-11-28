@@ -1,0 +1,20 @@
+.myLogin {
+  padding-top: 50px;
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .logo {
+      width: 84px;
+      // height: 42px;
+    }
+    .title {
+      margin-top: 20px;
+    }
+  }
+  .form {
+    margin-top: 30px;
+  }
+}
