@@ -43,3 +43,124 @@ import { injectIntl } from "react-intl";
   }}
 />;
 ```
+
+# react hooks 笔记
+
+> useEffect
+>
+> > useEffect 是在 dom 更新之后调用的函数( 当你调用 useEffect 时，就是在告诉 React 在完成对 DOM 的更改后运行你的“副作用”函数)
+
+```javascript
+import React, { useState, useEffect } from "react";
+export default () => {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("xxx");
+  useEffect(() => {
+    console.log("count更新了调用", count);
+  }, [count]);
+
+  useEffect(() => {
+    console.log("初始化调用");
+    return function() {
+      console.log("页面卸载调用");
+    };
+  }, []);
+  return (
+    <>
+      <div>{count}</div>
+      <div>{name}</div>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        add
+      </button>
+      <button
+        onClick={() => {
+          setName(
+            name +
+              Math.random()
+                .toString(16)
+                .slice(2, 3)
+          );
+        }}
+      >
+        other change
+      </button>
+    </>
+  );
+};
+```
+
+> useMemo
+>
+> > useMemo 是在 dom 更新前调用的函数(传入 useMemo 的函数会在渲染期间执行)
+
+```javascript
+import React, { useState, useEffect, useMemo } from "react";
+export default function() {
+  const [name, setName] = useState("xxx");
+  const [age, setAge] = useState(23);
+  useEffect(() => {
+    console.log("useEffect", "name--------------change");
+  }, [name]);
+  useEffect(() => {
+    console.log("useEffect", "age--------------change");
+  }, [age]);
+  const logNameChange = useMemo(() => {
+    console.log("name变化啦", name);
+    return name;
+  }, [name]);
+
+  const logAgeChange = useMemo(() => {
+    console.log("age变化啦", age);
+    return age;
+  }, [age]);
+  return (
+    <>
+      <div>{logNameChange}</div>
+      <div>{logAgeChange}岁了</div>
+      <button onClick={() => setName(name + "_1")}>改变name</button>
+      <button onClick={() => setAge(age + 1)}>改变age</button>
+    </>
+  );
+}
+```
+
+> useCallback
+>
+> > useCallback 使用和 useMemo 类似第一个参数是一个函数，第二个参数是监听的数组，当数组里的值发生改变了，我们就返回一个新的函数，否则返回原函数，我们可以父组件里监听一个值来根据这个值操作子组件是否需要渲染，
+
+```javascript
+import React, { useState, useCallback, useEffect } from "react";
+function Parent() {
+  const [count, setCount] = useState(1);
+  const [val, setVal] = useState("");
+
+  const callback = useCallback(() => {
+    return count;
+  }, [count]); //根据count判断是否需要渲染子组件(渲染子组件是指是否执行子组件的effect函数)
+  return (
+    <div>
+      <h4>{count}</h4>
+      <Child callback={callback} />
+      <div>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        <input value={val} onChange={event => setVal(event.target.value)} />
+      </div>
+    </div>
+  );
+}
+
+function Child({ callback }) {
+  const [count, setCount] = useState(() => callback());
+  useEffect(() => {
+    setCount(callback());
+    console.log("object");
+  }, [callback]);
+  return <div>{count}</div>;
+}
+
+export default Parent;
+```
