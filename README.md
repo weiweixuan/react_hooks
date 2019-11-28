@@ -46,6 +46,42 @@ import { injectIntl } from "react-intl";
 
 # react hooks 笔记
 
+> useState
+>
+> > 通过闭包保存了变量的状态，返回了一个原值和更新的值，可多次调用，切记只可以在组件最外层使用！！！
+
+```javascript
+import { useState } from 'react';
+function Example() {
+  // Declare a new state variable, which we'll call "count"
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() : setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
+> useRef
+>
+> > 相当于一个缓存变量的工具，可以存任何值
+
+```javascript
+import React, { useState, useRef, useEffect } from "react";
+const MyInput = function(props) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
+  return <Input ref={ref} />;
+};
+```
+
 > useEffect
 >
 > > useEffect 是在 dom 更新之后调用的函数( 当你调用 useEffect 时，就是在告诉 React 在完成对 DOM 的更改后运行你的“副作用”函数)
