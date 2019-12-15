@@ -35,6 +35,7 @@ export default {
   "app.menu.demo": "my pages",
   "app.menu.demo.mydemo": "todoList",
   "app.menu.demo.MyLogin": "my Login Form",
+  "app.menu.demo.myTable": "search list",
 
   // Top Header
   "app.header.feedback": "Feedback",

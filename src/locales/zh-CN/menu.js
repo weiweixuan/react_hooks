@@ -34,7 +34,11 @@ export default {
 
   "app.menu.demo": "我的页面",
   "app.menu.demo.mydemo": "todoList",
-  "app.menu.demo.MyLogin": "我的登录表单",
+  "app.menu.demo.MyLogin": "用户信息",
+  "app.menu.demo.myTable": "查询列表",
+
+  "app.menu.hooks": '学习hooks',
+  "app.menu.hooks.study": 'demo',
 
   // Top Header
   "app.header.feedback": "反馈",
