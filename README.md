@@ -49,7 +49,8 @@ import { injectIntl } from "react-intl";
 > useState
 >
 > > 通过闭包保存了变量的状态，返回了一个原值和更新的值，可多次调用，切记只可以在组件最外层使用！！！
-1. 如果每次修改的值是依赖上次的值做计算，而且发现上次的值没有更新的话，可以给set传递一个fn (count => count+1 )，这样会使用最新值做计算
+
+1. 如果每次修改的值是依赖上次的值做计算，而且发现上次的值没有更新的话，可以给 set 传递一个 fn (count => count+1 )，这样会使用最新值做计算
 2. 如果初始化的值是个函数，它会先调用一次
 
 ```javascript
@@ -166,9 +167,20 @@ export default function() {
 }
 ```
 
+> > 对于组件优化来说，我们可以把组件作为返回值，添加组件需要的依赖，页面上直接展示该组件，当依赖更新，就会传递更新后的组件，渲染加载
+
+```javascript
+//子组件依赖count,非count的更新子组件不会重新渲染，起到优化效果
+let ChildComponent = useMemo(() => {
+  console.log("count", count);
+  return <Child count={count} changeCount={changeCount}></Child>;
+}, [count]);
+return <>{ChildComponent}</>;
+```
+
 > useCallback
 >
-> > useCallback 使用和 useMemo 类似第一个参数是一个函数，第二个参数是监听的数组，当数组里的值发生改变了，我们就返回一个新的函数，否则返回原函数，我们可以父组件里监听一个值来根据这个值操作子组件是否需要渲染,一般在传递函数的时候优化下性能
+> > useCallback 使用和 useMemo 类似第一个参数是一个函数，第二个参数是监听的数组，当数组里的值发生改变了，我们就返回一个新的函数，否则返回原函数，我们可以父组件里监听一个值来根据这个值操作子组件是否需要渲染,一般在传递函数的时候优化下性能，否则即使子组件使用了 memo(),渲染时函数每次都会传递不同的 fn，子组件依然会更新
 
 ```javascript
 import React, { useState, useCallback, useEffect } from "react";
@@ -204,9 +216,11 @@ export default Parent;
 ```
 
 > useReducer
->> 使用reducer方法，可以把组件内的处理逻辑放到reducer里，这样组件干净整洁，方便调试
+>
+> > 使用 reducer 方法，可以把组件内的处理逻辑放到 reducer 里，这样组件干净整洁，方便调试
+
 ```javascript
-	import React, {  useReducer } from "react";
+import React, { useReducer } from "react";
 
 let initialState = {
   count: 0
@@ -250,21 +264,22 @@ export default () => {
     </div>
   );
 };
-
-	
 ```
 
->自定义hooks
->> 我们可以自定义一个自己的hooks来封装一些特定的功能，比如我们封装了一个请求方法,我们可以多次调用自定义hooks,每次调用之间互不影响
+> 自定义 hooks
+>
+> > 我们可以自定义一个自己的 hooks 来封装一些特定的功能，比如我们封装了一个请求方法,我们可以多次调用自定义 hooks,每次调用之间互不影响
+
 ```javascript
-import React, { useState, useReducer, useEffect } from 'react'
-import axios from 'axios'
-const initApi = 'http://rap2api.taobao.org/app/mock/239903/example/1576316288465'//测试api
+import React, { useState, useReducer, useEffect } from "react";
+import axios from "axios";
+const initApi =
+  "http://rap2api.taobao.org/app/mock/239903/example/1576316288465"; //测试api
 const initState = {
   loading: false,
   error: null,
   data: {}
-}
+};
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -279,93 +294,98 @@ const reducer = (state, action) => {
         loading: false,
         error: payload,
         data: {}
-      }
+      };
     case "success":
       return {
         loading: false,
         error: null,
         data: payload
-      }
+      };
     default:
       return {
         loading: false,
         error: null,
         data: {}
-      }
+      };
   }
-}
+};
 export default ({ api_, payload } = {}) => {
-  const [api, setApi] = useState(api_)
-  const [state, dispatch] = useReducer(reducer, initState)
+  const [api, setApi] = useState(api_);
+  const [state, dispatch] = useReducer(reducer, initState);
   async function getData() {
     try {
       if (api) {
-        dispatch({ type: 'init' })
-        const res = await axios.get(api)
+        dispatch({ type: "init" });
+        const res = await axios.get(api);
         if (res.status === 200 && res.data) {
-          dispatch({ type: 'success', payload: res.data })
+          dispatch({ type: "success", payload: res.data });
         }
       }
     } catch (e) {
-      dispatch({ type: 'error', payload: e })
+      dispatch({ type: "error", payload: e });
     }
   }
   useEffect(() => {
-    getData()
-  }, [api])
-  return [state, setApi]
-}
+    getData();
+  }, [api]);
+  return [state, setApi];
+};
 
 // 在组件中使用
 
-import React from 'react'
+import React from "react";
 import { Button, Loading } from "@alifd/next";
-import useApi from '../../../hooks/useApi'
-const initApi = 'http://rap2api.taobao.org/app/mock/239903/example/1576316288465'
+import useApi from "../../../hooks/useApi";
+const initApi =
+  "http://rap2api.taobao.org/app/mock/239903/example/1576316288465";
 export default () => {
-  const [state, setApi] = useApi()
+  const [state, setApi] = useApi();
   const { name, age, skill } = state.data;
   function getData() {
-    setApi(initApi)
+    setApi(initApi);
   }
-  return <>
-    <Loading visible={state.loading}
-      fullScreen
-      shape="fusion-reactor"
-    >
-      <p>姓名：{name}</p>
-      <p>年龄：{age}</p>
-      <p>技能：{skill}</p>
-      <Button type="primary" onClick={getData}>获取数据</Button>
-    </Loading>
-  </>
-}
-
+  return (
+    <>
+      <Loading visible={state.loading} fullScreen shape="fusion-reactor">
+        <p>姓名：{name}</p>
+        <p>年龄：{age}</p>
+        <p>技能：{skill}</p>
+        <Button type="primary" onClick={getData}>
+          获取数据
+        </Button>
+      </Loading>
+    </>
+  );
+};
 ```
 
 > React.memo
->> 这个虽然是类的高阶组件，但是我们可以用来优化函数式组件
->>> 子组件的props属性项作为依赖项，如果props的值更新了，那么子组件更新，否则使用缓存
->>> 我们也可以自己定义是否需要更新
+>
+> > 这个虽然是类的高阶组件，但是我们可以用来优化函数式组件
+> >
+> > > 子组件的 props 属性项作为依赖项，如果 props 的值更新了，那么子组件更新，否则使用缓存
+> > > 我们也可以自己定义是否需要更新
 
 ```javascript
-import React,{ memo } from 'react'
+import React, { memo } from "react";
 
 export default memo(({ count }) => {
-  console.log('子组件更新了')
-  return <>
-    <div>点赞人数为:{count}</div>
-  </>
-}, notRender)
+  console.log("子组件更新了");
+  return (
+    <>
+      <div>点赞人数为:{count}</div>
+    </>
+  );
+}, notRender);
 function notRender(prevProps, nextProps) {
   //第二个参数如果不写的话默认是属性的浅对比
   // 此时我们只用到count属性，但是我们可以自己定义是否需要渲染方法，注意的是返回true是不要更新，false是需要更新，和ShouldComponentUpdate的返回值渲染相反！！！
   if (prevProps.count != nextProps.count) {
-    return false
+    return false;
   }
   return true;
 }
 
 // 父组件调用
-<Demo count={count} name={name}></Demo>
+<Demo count={count} name={name}></Demo>;
 ```
