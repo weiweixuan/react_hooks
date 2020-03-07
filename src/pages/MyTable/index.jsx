@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import styles from "./index.module.scss";
-import BaseForm from "../../components/Form/BaseForm";
+import React from "react";
 import moment from "moment";
+import BaseForm from "../../components/Form/BaseForm";
+
 const options = {
   // 表单样式
   formOptions: {
@@ -23,7 +23,7 @@ const options = {
     formItemLayout: {
       labelCol: { span: 6 }, // 调整单元块内的label栅格大小 例如： {span: 8, offset: 16}
       wrapperCol: { span: 16 }, // 调整单元块内表单组件占据的栅格大小 {span: 8, offset: 16}
-      span: 6, //占据一行的栅格数 (例如：24为单列展示，8为三列展示)
+      span: 6, // 占据一行的栅格数 (例如：24为单列展示，8为三列展示)
       labelAlign: "left", // 标签label布局： top ,left, inset (优先生效)
       labelTextAlign: "right" // 标签对齐方式 left right
     }
@@ -106,5 +106,5 @@ export default () => {
     startTime: moment(new Date()),
     endTime: moment(new Date())
   };
-  return <BaseForm options={options} defaultValue={defaultValue}></BaseForm>;
+  return <BaseForm options={options} defaultValue={defaultValue} />;
 };

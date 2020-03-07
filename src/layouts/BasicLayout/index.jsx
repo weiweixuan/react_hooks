@@ -47,10 +47,12 @@ export default function BasicLayout(props) {
           <Aside isMobile={isMobile} />
         </Layout.Aside>
         <Layout.Main scrollable>
-          <div style={{ minHeight: "90vh" }}>{props.children}</div>
-          <Layout.Footer>
+          <div style={{ minHeight: "90vh", height: "90vh" }}>
+            {props.children}
+          </div>
+          {/* <Layout.Footer>
             <Footer />
-          </Layout.Footer>
+          </Layout.Footer> */}
         </Layout.Main>
       </Layout.Section>
     </Layout>
