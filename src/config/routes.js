@@ -24,7 +24,8 @@ const ServerError = React.lazy(() => import("@/pages/ServerError"));
 const Demo = React.lazy(() => import("@/pages/Demo"));
 const MyLogin = React.lazy(() => import("@/pages/MyLogin"));
 const MyTable = React.lazy(() => import("@/pages/MyTable"));
-const Hooks = React.lazy(() => import('@/pages/Hooks'));
+const MyScreen = React.lazy(() => import("@/pages/MyScreen"));
+const Hooks = React.lazy(() => import("@/pages/Hooks"));
 
 const routerConfig = [
   {
@@ -113,7 +114,11 @@ const routerConfig = [
         component: MyTable
       },
       {
-        path: '/hooks/study',
+        path: "/demo/myScreen",
+        component: MyScreen
+      },
+      {
+        path: "/hooks/study",
         component: Hooks
       },
       {
