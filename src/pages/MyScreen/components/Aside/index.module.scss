@@ -5,25 +5,17 @@
   background-size: 100% 100%;
   background-position: 0 0px;
   margin-top: -8px;
-  padding-top: 10px;
+  padding-top: 6px;
   .scrollBox {
     height: 60%;
     width: 68%;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
     overflow-y: auto;
 
     /*滚动条样式*/
     &::-webkit-scrollbar {
       width: 0px; /*height: 4px;*/
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      background: rgba(0, 0, 0, 0.2);
-    }
-    &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      border-radius: 0;
-      background: rgba(0, 0, 0, 0.1);
     }
 
     .scrollItem {
@@ -41,6 +33,9 @@
         background: url("../../images/tab-hover.png") no-repeat left center;
         background-size: 100% 100%;
       }
+      &:first-child {
+        margin-top: 0;
+      }
     }
     .active {
       background: url("../../images/tab-hover.png") no-repeat left center;
@@ -49,5 +44,7 @@
   }
   .showBox {
     height: 40%;
+    width: 73%;
+    background: #ddd;
   }
 }
