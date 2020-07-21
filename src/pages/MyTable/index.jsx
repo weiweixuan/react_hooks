@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import BaseForm from "../../components/Form/BaseForm";
+import BaseTable from "../../components/Table/BaseTable";
 import ContactsInfo from "./ContactsInfo";
 import { Form, Input, Checkbox } from "@alifd/next";
 
@@ -68,46 +69,46 @@ export default () => {
         name: "name",
         requiredMessage: "请填写有效的姓名", // 表单验证的提示信息
       },
-      {
-        label: "作业名称2",
-        // ChildComponent: "Input",
-        renderComponent: (
-          <FormItem
-            required
-            placeholder="请输入姓名"
-            name="name2"
-            requiredMessage="请填写有效的姓名"
-          >
-            <Input
-              htmlType="password"
-              name="basePass"
-              placeholder="Please Enter Password"
-            />
-          </FormItem>
-        ),
-        required: true,
-        placeholder: "请输入姓名",
-        name: "name",
-        requiredMessage: "请填写有效的姓名", // 表单验证的提示信息
-      },
-      {
-        label: "自定义选择",
-        separateLayout: true,
-        renderComponent: (
-          <ContactsInfo
-            list={companyContacts}
-            onChange={(e) => {
-              // this.setState({ companyContacts: e });
-              setCompanyContacts(e);
-              field.setValues({ userDefined: e });
-            }}
-          />
-        ),
-        required: true,
-        placeholder: "请输入选择文案",
-        name: "userDefined",
-        requiredMessage: "请填写有效的内容", // 表单验证的提示信息
-      },
+      // {
+      //   label: "作业名称2",
+      //   // ChildComponent: "Input",
+      //   renderComponent: (
+      //     <FormItem
+      //       required
+      //       placeholder="请输入姓名"
+      //       name="name2"
+      //       requiredMessage="请填写有效的姓名"
+      //     >
+      //       <Input
+      //         htmlType="password"
+      //         name="basePass"
+      //         placeholder="Please Enter Password"
+      //       />
+      //     </FormItem>
+      //   ),
+      //   required: true,
+      //   placeholder: "请输入姓名",
+      //   name: "name",
+      //   requiredMessage: "请填写有效的姓名", // 表单验证的提示信息
+      // },
+      // {
+      //   label: "自定义选择",
+      //   separateLayout: true,
+      //   renderComponent: (
+      //     <ContactsInfo
+      //       list={companyContacts}
+      //       onChange={(e) => {
+      //         // this.setState({ companyContacts: e });
+      //         setCompanyContacts(e);
+      //         field.setValues({ userDefined: e });
+      //       }}
+      //     />
+      //   ),
+      //   required: true,
+      //   placeholder: "请输入选择文案",
+      //   name: "userDefined",
+      //   requiredMessage: "请填写有效的内容", // 表单验证的提示信息
+      // },
       {
         label: "小计",
         ChildComponent: "TextArea",
@@ -241,14 +242,52 @@ export default () => {
     // setDefaultValue(params);
   }
 
+  const columnList = [
+    { title: "ID", dataIndex: "id" },
+    { title: "时间", dataIndex: "time" },
+    { title: "年龄", dataIndex: "age" },
+    {
+      title: "操作",
+      cell() {
+        return (
+          <>
+            <a href="/">编辑</a> &nbsp;
+            <a href="/">删除</a> &nbsp;
+          </>
+        );
+      },
+    },
+  ];
+  const dataSource = Array.from({ length: 10 }, ($, _) => ({
+    id: _ + 1,
+    time: new Date().toDateString(),
+    age: Math.floor(Math.random() * 10 + 20),
+  }));
+
   return (
-    <BaseForm
-      options={options}
-      renderData={renderData}
-      handleSubmit={handleSubmit}
-      handleReset={handleReset}
-      defaultValue={defaultValue}
-      handleChange={handleChange}
-    />
+    <div>
+      <BaseForm
+        options={options}
+        renderData={renderData}
+        handleSubmit={handleSubmit}
+        handleReset={handleReset}
+        defaultValue={defaultValue}
+        handleChange={handleChange}
+      />
+      <BaseTable
+        columnList={columnList}
+        dataSource={dataSource}
+        paginationOptions={{
+          current: 2,
+          onChange(pageNum) {
+            console.log(pageNum, "pageNum");
+          },
+          onPageSizeChange(pageSize) {
+            console.log(pageSize, "pageSize");
+          },
+        }}
+        sort={{ age: "asc" }}
+      />
+    </div>
   );
 };
