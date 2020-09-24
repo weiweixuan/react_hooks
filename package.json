@@ -41,14 +41,17 @@
     "stylelint": "^10.1.0",
     "ice-scripts": "^2.0.0",
     "ice-plugin-fusion": "^0.1.4",
-    "ice-plugin-moment-locales": "^0.1.0"
+    "ice-plugin-moment-locales": "^0.1.0",
+    "xima": "^0.2.16"
   },
   "scripts": {
     "start": "ice-scripts dev",
     "build": "ice-scripts build",
     "lint": "npm run eslint && npm run stylelint",
     "eslint": "eslint --cache --ext .js,.jsx ./",
-    "stylelint": "stylelint ./**/*.scss"
+    "stylelint": "stylelint ./**/*.scss",
+    "xima-scan": "xima scan",
+    "xima-fix": "xima fix"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -60,5 +63,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ice-lab/react-materials/tree/master/scaffolds/ice-pro"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "xima exec commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "xima exec lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": "xima exec eslint",
+    "**/*.{css,scss,less,acss}": "xima exec stylelint"
   }
 }

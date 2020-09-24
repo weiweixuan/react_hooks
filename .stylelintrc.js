@@ -1,3 +1,3 @@
-const { stylelint } = require('@ice/spec');
-
-module.exports = stylelint;
+module.exports = {
+  extends: 'stylelint-config-ali',
+};

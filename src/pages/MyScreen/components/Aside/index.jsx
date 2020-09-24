@@ -6,6 +6,7 @@ export default props => {
   const [busenessData, setBusensessData] = useState([]);
 
   useEffect(() => {
+    // 默认选中第一个
     setBusensessData(
       data.map((item, key) => {
         return { name: item, checked: !key ? true : false };
