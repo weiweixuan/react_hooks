@@ -389,3 +389,32 @@ function notRender(prevProps, nextProps) {
 // 父组件调用
 <Demo count={count} name={name}></Demo>;
 ```
+
+> hooks 结合 redux（7.1.0 版本）
+>
+> > useSelector, useDispatch 这两个方法来增强 redux 的使用
+
+```javascript
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getChangeAction } from "../../actions/penny";
+function Penny() {
+  const state = useSelector(mapStateToProps);
+  const dispatch = useDispatch(); // 获取dispatch
+  return (
+    <>
+      <div>penny</div>
+      <p>{state.penny.title}</p>
+      <button
+        onClick={() => {
+          dispatch(getChangeAction());
+        }}
+      >
+        触发dispatch
+      </button>
+    </>
+  );
+}
+let mapStateToProps = ({ penny }) => ({ penny }); // 此处可以返回什么类型都可以，不一定是一个对象
+export default Penny;
+```

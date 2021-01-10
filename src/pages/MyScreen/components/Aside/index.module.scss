@@ -6,45 +6,73 @@
   background-position: 0 0px;
   margin-top: -8px;
   padding-top: 6px;
-  .scrollBox {
-    height: 60%;
-    width: 68%;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    overflow-y: auto;
+  .article {
+    width: 73%;
+    height: 100%;
+    padding: 0 10px;
+    .scrollBox {
+      width: 100%;
+      height: 70%;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      overflow-y: auto;
 
-    /*滚动条样式*/
-    &::-webkit-scrollbar {
-      width: 0px; /*height: 4px;*/
-    }
+      /*滚动条样式*/
+      &::-webkit-scrollbar {
+        width: 0px; /*height: 4px;*/
+      }
 
-    .scrollItem {
-      height: 25px;
-      background: url("../../images/tab.png") no-repeat left center;
-      background-size: 100% 100%;
-      font-family: "PingFangSC-Medium";
-      font-size: 12px;
-      line-height: 25px;
-      padding-left: 10px;
-      color: #c8deff;
-      margin-top: 8px;
+      .scrollItem {
+        height: 25px;
+        background: url("../../images/tab.png") no-repeat left center;
+        background-size: 100% 100%;
+        font-family: "PingFangSC-Medium";
+        font-size: 12px;
+        line-height: 25px;
+        padding-left: 10px;
+        color: #c8deff;
+        margin-top: 8px;
 
-      &:hover {
+        &:hover {
+          background: url("../../images/tab-hover.png") no-repeat left center;
+          background-size: 100% 100%;
+        }
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+      .active {
         background: url("../../images/tab-hover.png") no-repeat left center;
         background-size: 100% 100%;
       }
-      &:first-child {
-        margin-top: 0;
+    }
+    .showBox {
+      width: 100%;
+      height: 28%;
+      background: rgba(39, 54, 74, 0.4);
+      border: 1px solid rgba(71, 105, 159, 0.94);
+      display: flex;
+      flex-wrap: wrap;
+      padding: 5px;
+      .showItems {
+        width: 50%;
+        font-family: "PingFangSC-Regular";
+        font-size: 10.14px;
+        color: #7bafff;
+        padding-left: 10px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        .img {
+          width: 28px;
+          height: 32px;
+          margin-right: 6px;
+        }
+        .label {
+          flex: 1;
+          transform: scale(0.9);
+        }
       }
     }
-    .active {
-      background: url("../../images/tab-hover.png") no-repeat left center;
-      background-size: 100% 100%;
-    }
-  }
-  .showBox {
-    height: 40%;
-    width: 73%;
-    background: #ddd;
   }
 }

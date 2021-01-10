@@ -3,6 +3,18 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import styles from "./index.module.scss";
 
+let bussiessArr = Array.from({ length: 10 }, (_, index) => "业务名称" + index);
+
+let showModelList = [
+  { label: "应用", value: "app" },
+  { label: "ecs", value: "ecs" },
+  { label: "DRDS", value: "drds" },
+  { label: "RDS", value: "rds" },
+  { label: "KVSTORE", value: "kvstore" },
+  { label: "SLB", value: "slb" },
+  { label: "DOCKER", value: "docker" }
+];
+
 export default () => {
   // 是否全屏
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -22,10 +34,6 @@ export default () => {
     setHeight(F.offsetHeight);
   }
 
-  let bussiessArr = Array.from(
-    { length: 20 },
-    (_, index) => "业务名称" + index
-  );
   return (
     <div
       className={`${styles.screen} ${isFullScreen ? styles.fullScreen : ""}`}
@@ -45,7 +53,7 @@ export default () => {
         }}
       />
       <Header isFullScreen={isFullScreen} setIsFullScreen={setIsFullScreen} />
-      <Main asideData={bussiessArr} />
+      <Main asideData={bussiessArr} showModelList={showModelList} />
     </div>
   );
 };

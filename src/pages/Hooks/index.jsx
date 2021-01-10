@@ -1,27 +1,43 @@
-import React, { useState, useCallback } from 'react'
-import UesState from './components/useState';
-import UseReducer from './components/useReducer'
-import Demo from './components/demo'
-import UseApi from './components/UseApi'
-export default () => {
-  const [count, setCount] = useState(10)
-  const [name, setName] = useState('xxx')
-  console.log('父组件渲染');
-  const handleSetCount = useCallback(val => {
-    setCount(val)
-  }, [count]);
-  return <div style={{ textAlign: 'center' }}>
-    <h1>react Hooks</h1>
-    <button onClick={() => {
-      setCount(count + 1)
-    }}>change count</button>
-    {/* <UesState></UesState>
-    <UseReducer count={count}></UseReducer> */}
-    <Demo count={count} setCount={handleSetCount}></Demo>
-    <h2>{name}</h2>
-    <button onClick={() => {
-      setName(name + "a")
-    }}>change name</button>
-    {/* <UseApi name={name} count={count}></UseApi> */}
-  </div>
-}
+import React, {
+  memo,
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+
+const Child = forwardRef((props, ref) => {
+  const [double, setDouble] = useState(0);
+  useImperativeHandle(ref, () => ({
+    changeDouble(val) {
+      setDouble(val * 2);
+    },
+  }));
+  return (
+    <>
+      <h2>加倍组件</h2>
+      <p>值为：{double}</p>
+    </>
+  );
+});
+
+const Father = memo((props) => {
+  const Cref = useRef();
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+    console.log(Cref.current, "xixi");
+    Cref.current.changeDouble(count + 1);
+  }
+
+  return (
+    <div>
+      <h2>数量：{count}</h2>
+      <button onClick={handleClick}>增加</button>
+      <Child ref={Cref}></Child>
+    </div>
+  );
+});
+
+export default Father;
