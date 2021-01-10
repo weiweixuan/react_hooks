@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['ali'],
+  extends: ["@commitlint/config-conventional"],
 };

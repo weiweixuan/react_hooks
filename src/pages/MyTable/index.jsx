@@ -89,7 +89,7 @@ const options = {
       name: "startTime"
     },
     {
-      label: "结束日期:",
+      label: "结束日期熬好:",
       ChildComponent: "DatePicker",
       fullWidth: true, // 有的组件不可改变宽高，例如日期选择框，可用该配置占满宽度
       placeholder: "请输入",
@@ -99,7 +99,7 @@ const options = {
 };
 export default () => {
   const defaultValue = {
-    name: "作业名称",
+    name: "作业名称222",
     address: "1",
     test: "任务",
     status: "2",

@@ -35,13 +35,14 @@
     "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@ice/spec": "^0.1.1",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "eslint": "^6.0.1",
-    "stylelint": "^10.1.0",
-    "ice-scripts": "^2.0.0",
     "ice-plugin-fusion": "^0.1.4",
     "ice-plugin-moment-locales": "^0.1.0",
+    "ice-scripts": "^2.0.0",
+    "stylelint": "^10.1.0",
     "xima": "^0.2.16"
   },
   "scripts": {
